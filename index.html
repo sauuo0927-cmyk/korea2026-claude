@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>🇰🇷 韓國五日遊 2026.07.08－07.12｜清州・大田・首爾</title>
+<style>
+  :root{
+    --pink:#FF8FAB; --pink-soft:#FFE3EC; --peach:#FFB77D; --peach-soft:#FFF0E0;
+    --mint:#5FC8A8; --mint-soft:#E0F7EF; --lav:#9D8CFF; --lav-soft:#EFEBFF;
+    --sky:#5FB6E8; --sky-soft:#E3F3FD; --ink:#4A3B47; --ink-soft:#8A7A86;
+    --card:#FFFFFF;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{overflow-x:hidden;}
+  body{
+    font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;
+    color:var(--ink);
+    background:linear-gradient(160deg,#FFF5F7 0%,#FFF9F0 35%,#F0FAF6 70%,#EFF6FF 100%);
+    background-attachment:fixed;
+    line-height:1.75;
+    -webkit-text-size-adjust:100%;
+  }
+  img{max-width:100%;}
+  .wrap{max-width:860px;margin:0 auto;padding:24px 16px 80px;}
+
+  /* place links */
+  a.pl{
+    color:#C2477A;font-weight:700;text-decoration:none;
+    border-bottom:2px dotted #FF8FAB;word-break:keep-all;cursor:pointer;
+  }
+  a.pl:hover{background:var(--pink-soft);border-radius:4px;}
+  a.pl::after{content:"🧭";font-size:.8em;margin-left:1px;}
+  a.web{color:#2E86C6;font-weight:700;text-decoration:none;border-bottom:2px dotted #5FB6E8;}
+  a.web:hover{background:var(--sky-soft);border-radius:4px;}
+  a.web::after{content:"🔗";font-size:.8em;margin-left:1px;}
+
+  /* ===== header ===== */
+  header{text-align:center;padding:36px 12px 10px;}
+  .hero-emoji{font-size:52px;letter-spacing:8px;}
+  h1{font-size:34px;margin:10px 0 6px;color:#E05780;}
+  .sub{color:var(--ink-soft);font-size:15px;}
+  .route{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:18px 0 8px;}
+  .route span{
+    background:var(--card);border:2px solid var(--pink-soft);border-radius:999px;
+    padding:6px 16px;font-weight:700;font-size:14px;box-shadow:0 3px 10px rgba(224,87,128,.08);
+  }
+  .hero-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:22px 0 6px;}
+  .hero-strip img{
+    width:100%;height:110px;object-fit:cover;border-radius:18px;border:4px solid #fff;
+    box-shadow:0 6px 16px rgba(74,59,71,.14);
+  }
+  .hero-strip img:nth-child(odd){transform:rotate(-1.6deg);}
+  .hero-strip img:nth-child(even){transform:rotate(1.4deg);}
+  .navhint{
+    margin:14px auto 0;max-width:520px;background:#FFF7E6;border:2px dashed #FFC94D;border-radius:14px;
+    padding:8px 14px;font-size:13px;color:#8A6A00;
+  }
+
+  /* ===== tab bar ===== */
+  nav{
+    position:sticky;top:0;z-index:50;display:flex;justify-content:center;gap:8px;flex-wrap:wrap;
+    padding:12px 8px;margin:18px -16px 26px;
+    background:rgba(255,250,250,.92);backdrop-filter:blur(8px);
+    border-bottom:2px dashed var(--pink-soft);
+  }
+  nav button{
+    font-family:inherit;cursor:pointer;
+    font-weight:800;font-size:14px;color:var(--ink);
+    background:#fff;border-radius:999px;padding:7px 15px;border:2px solid transparent;
+    box-shadow:0 3px 8px rgba(74,59,71,.10);transition:.15s;white-space:nowrap;
+  }
+  nav button:hover{transform:translateY(-2px);}
+  nav button.d1{border-color:var(--peach);} nav button.d2{border-color:var(--mint);}
+  nav button.d3{border-color:var(--lav);}  nav button.d4{border-color:var(--pink);}
+  nav button.d5{border-color:var(--sky);}  nav button.d6{border-color:#FFC94D;}
+  nav button.on.d1{background:var(--peach);color:#fff;}
+  nav button.on.d2{background:var(--mint);color:#fff;}
+  nav button.on.d3{background:var(--lav);color:#fff;}
+  nav button.on.d4{background:var(--pink);color:#fff;}
+  nav button.on.d5{background:var(--sky);color:#fff;}
+  nav button.on.d6{background:#FFC94D;color:#fff;}
+
+  /* ===== panes ===== */
+  .pane{display:none;animation:fadein .25s ease;}
+  .pane.on{display:block;}
+  @keyframes fadein{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+  /* ===== day card ===== */
+  .day{
+    background:var(--card);border-radius:28px;padding:26px 24px 22px;margin-bottom:34px;
+    box-shadow:0 10px 30px rgba(74,59,71,.10);border-top:8px solid var(--pink);
+  }
+  .day.d1{border-color:var(--peach);} .day.d2{border-color:var(--mint);}
+  .day.d3{border-color:var(--lav);}  .day.d4{border-color:var(--pink);}
+  .day.d5{border-color:var(--sky);}
+  .day-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:6px;}
+  .day-badge{
+    font-size:13px;font-weight:900;color:#fff;border-radius:16px;padding:10px 14px;line-height:1.3;
+    text-align:center;min-width:86px;flex-shrink:0;
+  }
+  .d1 .day-badge{background:var(--peach);} .d2 .day-badge{background:var(--mint);}
+  .d3 .day-badge{background:var(--lav);}  .d4 .day-badge{background:var(--pink);}
+  .d5 .day-badge{background:var(--sky);}
+  .day-title{font-size:22px;font-weight:900;}
+  .day-city{color:var(--ink-soft);font-size:14px;}
+  .day-head > div:last-child{flex:1;min-width:0;}
+
+  /* steps meter */
+  .steps{margin:10px 0 18px;}
+  .steps .bar{height:14px;border-radius:999px;background:#F3EDF1;overflow:hidden;}
+  .steps .fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#FFD3A5,#FF8FAB);}
+  .steps .lab{font-size:13px;color:var(--ink-soft);margin-top:3px;}
+
+  /* timeline */
+  .tl{list-style:none;position:relative;padding-left:30px;}
+  .tl::before{content:"";position:absolute;left:9px;top:6px;bottom:6px;border-left:3px dotted #E8D8E0;}
+  .tl li{position:relative;padding:7px 0 7px 6px;overflow-wrap:break-word;}
+  .tl li::before{
+    content:"";position:absolute;left:-27px;top:16px;width:13px;height:13px;border-radius:50%;
+    background:#fff;border:4px solid var(--pink);
+  }
+  .d1 .tl li::before{border-color:var(--peach);} .d2 .tl li::before{border-color:var(--mint);}
+  .d3 .tl li::before{border-color:var(--lav);}  .d5 .tl li::before{border-color:var(--sky);}
+  .t{font-weight:900;color:#E05780;margin-right:6px;white-space:nowrap;}
+  .d1 .t{color:#E8862F;} .d2 .t{color:#2E9D7B;} .d3 .t{color:#7A63F0;} .d5 .t{color:#2E86C6;}
+  .chip{
+    display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:1px 10px;margin-left:6px;
+    background:var(--pink-soft);color:#C2477A;vertical-align:2px;white-space:nowrap;
+  }
+  .chip.tr{background:#EAF4FF;color:#2E86C6;}
+  .chip.book{background:#FFF3C9;color:#A97A00;}
+  .note{font-size:13.5px;color:var(--ink-soft);display:block;}
+
+  /* photos */
+  .pics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0 4px;}
+  .pic{background:#fff;border-radius:16px;padding:8px 8px 6px;box-shadow:0 5px 14px rgba(74,59,71,.13);}
+  .pic:nth-child(odd){transform:rotate(-1.2deg);} .pic:nth-child(even){transform:rotate(1.2deg);}
+  .pic img{width:100%;height:130px;object-fit:cover;border-radius:10px;display:block;}
+  .pic figcaption{font-size:12.5px;font-weight:700;text-align:center;padding-top:5px;color:var(--ink-soft);}
+
+  /* star recommendation card */
+  .star{
+    background:linear-gradient(135deg,#FFF9EC,#FFF1F5);border:2px dashed #FFC94D;
+    border-radius:18px;padding:14px 16px;margin:14px 0;font-size:14.5px;overflow-wrap:break-word;
+  }
+  .star b.name{color:#E05780;font-size:15.5px;}
+  .star .alt{color:var(--ink-soft);font-size:13.5px;display:block;margin-top:4px;}
+
+  /* sections */
+  h2.sec{font-size:24px;text-align:center;margin:10px 0 18px;color:#E05780;}
+  h2.sec small{display:block;font-size:13px;color:var(--ink-soft);font-weight:400;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .mini{
+    background:var(--card);border-radius:20px;padding:16px 18px;box-shadow:0 6px 18px rgba(74,59,71,.09);
+    font-size:14px;overflow-wrap:break-word;
+  }
+  .mini h3{font-size:16px;margin-bottom:6px;}
+  .mini ul{padding-left:18px;}
+  .mini li{margin:4px 0;}
+
+  footer{
+    text-align:center;color:var(--ink-soft);font-size:12.5px;margin-top:50px;
+    border-top:2px dashed var(--pink-soft);padding-top:18px;
+  }
+  footer a{color:#C2477A;}
+
+  /* ===== RWD ===== */
+  @media (max-width:640px){
+    .wrap{padding:16px 12px 60px;}
+    header{padding:24px 4px 6px;}
+    .hero-emoji{font-size:38px;letter-spacing:5px;}
+    h1{font-size:25px;}
+    .sub{font-size:13px;}
+    .route span{font-size:12.5px;padding:5px 12px;}
+    .hero-strip{grid-template-columns:repeat(2,1fr);gap:8px;}
+    .hero-strip img{height:96px;}
+    .navhint{font-size:12px;}
+    nav{margin:14px -12px 20px;gap:6px;padding:10px 6px;}
+    nav button{font-size:12.5px;padding:6px 11px;}
+    .day{padding:18px 14px 16px;border-radius:22px;}
+    .day-title{font-size:17.5px;line-height:1.45;}
+    .day-city{font-size:12.5px;}
+    .day-badge{min-width:72px;font-size:12px;padding:8px 10px;}
+    .tl{padding-left:26px;}
+    .tl li{font-size:14.5px;}
+    .tl li::before{left:-23px;width:11px;height:11px;}
+    .note{font-size:12.5px;}
+    .chip{font-size:11px;}
+    .pics{grid-template-columns:1fr 1fr;gap:10px;}
+    .pic img{height:112px;}
+    .grid2{grid-template-columns:1fr;}
+    h2.sec{font-size:20px;}
+    .star{font-size:13.5px;padding:12px 13px;}
+  }
+  @media (max-width:380px){
+    .hero-strip img{height:82px;}
+    .pic img{height:96px;}
+    nav button{font-size:11.5px;padding:5px 9px;}
+    .day-head{gap:10px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="hero-emoji">🇰🇷🧳🌸⚾🍖</div>
+  <h1>우리의 韓國五日遊</h1>
+  <div class="sub">2026.07.08（三）─ 07.12（日）｜台北 ✈ 清州 ─ 大田 ─ 首爾</div>
+  <div class="route">
+    <span>✈️ 台北→清州</span><span>🚂 大田 2晚</span><span>🏯 北村韓屋 1晚</span><span>🛍️ 明洞 1晚</span><span>🚌 清州→✈️台北</span>
+  </div>
+  <div class="hero-strip">
+    <img src="images/bukchon.jpg" alt="北村韓屋村">
+    <img src="images/samgyeopsal.jpg" alt="烤五花肉">
+    <img src="images/n_seoul_tower.jpg" alt="N首爾塔">
+    <img src="images/sungsimdang.jpg" alt="聖心堂">
+  </div>
+  <div class="navhint">🧭 手機點地點名稱＝直接打開 <b>Naver Map App 導航</b>（以你目前位置為起點）；沒裝 App 或用電腦會自動改開網頁地圖</div>
+</header>
+
+<nav id="tabs">
+  <button class="d1" data-pane="day1">7/8 大田⚾</button>
+  <button class="d2" data-pane="day2">7/9 大田🌳</button>
+  <button class="d3" data-pane="day3">7/10 北村🏯</button>
+  <button class="d4" data-pane="day4">7/11 明洞🛍️</button>
+  <button class="d5" data-pane="day5">7/12 回家✈️</button>
+  <button class="d6" data-pane="reco">💖 推薦攻略</button>
+</nav>
+
+<!-- ============ DAY 1 ============ -->
+<section class="pane" id="day1">
+<div class="day d1">
+  <div class="day-head">
+    <div class="day-badge">DAY 1<br>7/8（三）</div>
+    <div>
+      <div class="day-title">紅眼出發！大田初上陸 ＆ 韓華鷹之夜 ⚾</div>
+      <div class="day-city">📍 清州機場 → 大田（宿：Bake Stay 銀行洞）</div>
+    </div>
+  </div>
+  <div class="steps">
+    <div class="bar"><div class="fill" style="width:65%"></div></div>
+    <div class="lab">👟 預估步數：約 13,000 / 20,000 步（紅眼航班日，行程放輕鬆）</div>
+  </div>
+  <ul class="tl">
+    <li><span class="t">02:40</span>✈️ 台北桃園 TPE 起飛（紅眼班機，前一晚 00:00 前抵達機場）</li>
+    <li><span class="t">06:05</span>🛬 抵達 <a class="pl" data-p="cjj_airport">清州機場 CJJ</a><span class="note">入境後先買 T-money 交通卡＋領網卡，機場便利商店簡單吃點東西</span></li>
+    <li><span class="t">08:30</span>🚂 無窮花號｜<a class="pl" data-p="cjj_station">清州空港站</a> → <a class="pl" data-p="daejeon_st">大田站</a> 09:26<span class="chip tr">🚆 火車（已訂）</span></li>
+    <li><span class="t">09:45</span>🧳 行李寄放民宿 Bake Stay（<a class="pl" data-p="skyroad">銀行洞</a>）或大田站置物櫃<span class="chip tr">🚶 大田站→銀行洞 約15分</span></li>
+    <li><span class="t">10:30</span>🥐 <b>早午餐：<a class="pl" data-p="sungsimdang">聖心堂 성심당 本店</a></b>（大田人的驕傲！）<span class="chip">⭐早餐推薦</span><span class="note">必吃現炸「炸菠蘿麵包 튀김소보로」＋小麥麵包，順便外帶明天早餐｜08:00–22:00</span></li>
+    <li><span class="t">12:00</span>🌈 <a class="pl" data-p="skyroad">銀杏洞 Sky Road</a> 巨型 LED 天幕商店街（「大田的明洞」，就在民宿附近）</li>
+    <li><span class="t">13:30</span>🧺 <a class="pl" data-p="jungang_mkt">大田中央市場</a> 散步＋市場小吃（大田站旁，中部圈最大傳統市場）</li>
+    <li><span class="t">15:00</span>🏠 Check-in Bake Stay → 補眠午睡 💤（紅眼航班必須的！）</li>
+    <li><span class="t">17:30</span>🚌 出發前往球場<span class="chip tr">🚌 公車約15分／🚶 步行約25分（府沙洞）</span></li>
+    <li><span class="t">18:30</span>⚾ <b>KBO 職棒：韓華鷹 vs NC恐龍</b>｜<a class="pl" data-p="ballpark">大田韓華生命棒球場</a>（2025 全新球場！）<span class="chip">已買票</span><span class="note">必體驗：炸雞＋啤酒＋跟著加油團跳應援舞 🍗🍺</span></li>
+    <li><span class="t">21:30</span>🌙 <b>宵夜：<a class="pl" data-p="taepyeong">太平小國飯 태평소국밥</a></b>（24小時牛肉湯飯，大田在地名店，計程車前往）<span class="chip">⭐宵夜推薦</span><span class="note">偷懶方案：回銀行洞路上買炸雞回民宿配啤酒 🍗</span></li>
+  </ul>
+  <div class="pics">
+    <figure class="pic"><img src="images/daejeon_station.jpg" alt="大田站"><figcaption>🚉 大田站</figcaption></figure>
+    <figure class="pic"><img src="images/sungsimdang.jpg" alt="聖心堂"><figcaption>🥐 聖心堂本店</figcaption></figure>
+    <figure class="pic"><img src="images/hanwha_ballpark.jpg" alt="韓華鷹主場"><figcaption>⚾ 韓華鷹主場應援去！</figcaption></figure>
+  </div>
+</div>
+</section>
+
+<!-- ============ DAY 2 ============ -->
+<section class="pane" id="day2">
+<div class="day d2">
+  <div class="day-head">
+    <div class="day-badge">DAY 2<br>7/9（四）</div>
+    <div>
+      <div class="day-title">大田慢旅行：樹木園、咖啡街與刀削麵 🌳☕</div>
+      <div class="day-city">📍 大田（宿：Bake Stay 銀行洞）</div>
+    </div>
+  </div>
+  <div class="steps">
+    <div class="bar"><div class="fill" style="width:83%"></div></div>
+    <div class="lab">👟 預估步數：約 16,500 / 20,000 步</div>
+  </div>
+  <ul class="tl">
+    <li><span class="t">09:00</span>🍞 早餐：昨天聖心堂外帶的麵包＋民宿咖啡（Bake Stay 就是烘焙主題民宿🥯）</li>
+    <li><span class="t">10:00</span>🌳 <a class="pl" data-p="hanbat_arb">韓밭樹木園 한밭수목원</a>＋世博紀念廣場、<a class="pl" data-p="hanbit">한빛塔</a><span class="chip tr">🚌 公車606/706 約20分</span><span class="note">韓國最大市區人工樹木園，平坦好走、樹蔭多，夏天也舒服</span></li>
+    <li><span class="t">12:30</span>🍜 <b>午餐：<a class="pl" data-p="daeseon">大選刀削麵 대선칼국수</a></b>（大田是「刀削麵之都」！便宜大碗的靈魂美食）</li>
+    <li><span class="t">14:00</span>☕ <a class="pl" data-p="sojedong">蘇堤洞咖啡街 소제동</a>（大田站東側）<span class="chip tr">🚌 公車回大田站</span><span class="note">百年鐵道員工宿舍改建的文青咖啡巷弄，超好拍 📸</span></li>
+    <li><span class="t">16:30</span>🎡 （體力還夠的話）<a class="pl" data-p="daedong_sky">大東天空公園</a>：彩繪村＋小風車看夕陽<span class="note">要爬一小段坡，累了就跳過直接回民宿休息～</span></li>
+    <li><span class="t">18:30</span>🍲 <b>晚餐：<a class="pl" data-p="gwangcheon">光川食堂 광천식당</a></b>｜辣炒豆腐두부두루치기＋칼국수麵（大田必吃 Local 味）</li>
+    <li><span class="t">20:00</span>🌈 <a class="pl" data-p="skyroad">Sky Road</a> 天幕燈光秀（每晚整點播放）＋銀杏洞逛街</li>
+    <li><span class="t">21:00</span>🌙 宵夜：<a class="pl" data-p="sungsimdang">聖心堂</a> 關門前掃貨（–22:00，順便買明早火車上的麵包）＋路邊魚糕串 🍢</li>
+  </ul>
+  <div class="pics">
+    <figure class="pic"><img src="images/hanbat_arboretum.jpg" alt="韓밭樹木園"><figcaption>🌳 韓밭樹木園</figcaption></figure>
+    <figure class="pic"><img src="images/hanbit_tower.jpg" alt="世博園區"><figcaption>🗼 世博公園한빛塔</figcaption></figure>
+    <figure class="pic"><img src="images/kalguksu.jpg" alt="刀削麵"><figcaption>🍜 大田名物刀削麵</figcaption></figure>
+  </div>
+</div>
+</section>
+
+<!-- ============ DAY 3 ============ -->
+<section class="pane" id="day3">
+<div class="day d3">
+  <div class="day-head">
+    <div class="day-badge">DAY 3<br>7/10（五）</div>
+    <div>
+      <div class="day-title">KTX 進首爾！住進北村韓屋 ＆ 布帳馬車初體驗 🏯🍢</div>
+      <div class="day-city">📍 大田 → 首爾（宿：Hanok Stay 嘉會洞韓屋）</div>
+    </div>
+  </div>
+  <div class="steps">
+    <div class="bar"><div class="fill" style="width:78%"></div></div>
+    <div class="lab">👟 預估步數：約 15,500 / 20,000 步</div>
+  </div>
+  <ul class="tl">
+    <li><span class="t">09:30</span>🥐 早餐：聖心堂麵包＋咖啡，收行李｜11:00 Check-out</li>
+    <li><span class="t">12:09</span>🚄 KTX｜大田 → <a class="pl" data-p="seoul_st">首爾站</a> 13:11<span class="chip tr">🚄 火車（已訂）</span></li>
+    <li><span class="t">13:30</span>🚇 首爾站 → <a class="pl" data-p="anguk">安國站</a><span class="chip tr">🚇 4號線→忠武路轉3號線，約20分</span></li>
+    <li><span class="t">14:00</span>🍱 安國站附近簡單午餐（<a class="pl" data-p="tosokchon">土俗村蔘雞湯</a> 也可以，夏天吃蔘雞湯「以熱治熱」！）</li>
+    <li><span class="t">15:00</span>🏠 Check-in <b>Hanok Stay 嘉會洞韓屋民宿</b>——我們就住在北村韓屋村裡面！🎉</li>
+    <li><span class="t">15:30</span>🏯 <b><a class="pl" data-p="bukchon">北村韓屋村</a> 八景散步</b><span class="chip">⭐韓屋村</span><span class="note">嘉會洞31番地一帶是經典明信片視角；傍晚旅行團散去後最好拍。記得輕聲細語（是住宅區唷）🤫</span></li>
+    <li><span class="t">17:00</span>🎀 <a class="pl" data-p="samcheong">三清洞街</a>：雜貨小店＋韓屋咖啡下午茶</li>
+    <li><span class="t">18:30</span>🍽️ <b>晚餐：黑白大廚餐廳「<a class="pl" data-p="doryang">度量 도량</a>」</b>（景福宮站，從民宿散步15分）<span class="chip book">📱 CatchTable 提前預約</span><span class="note">黑湯匙主廚임태훈的中華料理，訂位難度中等、離住處最近的黑白大廚店！</span></li>
+    <li><span class="t">20:30</span>🏮 <b>宵夜：<a class="pl" data-p="jongno3">鐘路3街 布帳馬車一條街</a></b><span class="chip">⭐布帳馬車推薦</span><span class="chip tr">🚇 安國→鐘路3街 1站或🚶15分</span><span class="note">3～6號出口之間，晚上6點後開攤：雞蛋捲、烤腸、辣炒年糕配燒酒，體驗韓劇同款路邊攤！</span></li>
+  </ul>
+  <div class="pics">
+    <figure class="pic"><img src="images/ktx.jpg" alt="KTX"><figcaption>🚄 KTX 咻一下到首爾</figcaption></figure>
+    <figure class="pic"><img src="images/bukchon.jpg" alt="北村韓屋村"><figcaption>🏯 北村韓屋村</figcaption></figure>
+    <figure class="pic"><img src="images/pojangmacha.jpg" alt="布帳馬車"><figcaption>🏮 布帳馬車乾杯！</figcaption></figure>
+  </div>
+</div>
+</section>
+
+<!-- ============ DAY 4 ============ -->
+<section class="pane" id="day4">
+<div class="day d4">
+  <div class="day-head">
+    <div class="day-badge">DAY 4<br>7/11（六）</div>
+    <div>
+      <div class="day-title">明洞全制霸：購物、龍鬚糖小哥、烤五花、南山夜景 🛍️🍖🌃</div>
+      <div class="day-city">📍 首爾（宿：HOTEL BLISS 明洞）</div>
+    </div>
+  </div>
+  <div class="steps">
+    <div class="bar"><div class="fill" style="width:93%"></div></div>
+    <div class="lab">👟 預估步數：約 18,500 / 20,000 步（今天最操，好好吃肉補回來！）</div>
+  </div>
+  <ul class="tl">
+    <li><span class="t">08:00</span>📸 清晨<a class="pl" data-p="bukchon">北村</a>散步——沒有人潮的韓屋巷弄只有這時候有！</li>
+    <li><span class="t">09:00</span>☕ <b>早餐：<a class="pl" data-p="onion">Onion 어니언 安國店</a></b>（韓屋改建的人氣麵包咖啡廳）<span class="chip">⭐早餐推薦</span><span class="note">招牌「Pandoro 雪山麵包」＋美式，坐在韓屋簷廊下吃早餐超chill｜週末 09:00 開門</span></li>
+    <li><span class="t">10:30</span>🧳 回民宿 Check-out → 搭地鐵到明洞、行李寄放 HOTEL BLISS<span class="chip tr">🚇 安國→忠武路轉4號線→明洞，約20分</span></li>
+    <li><span class="t">12:00</span>🍗 午餐：<a class="pl" data-p="hyodam">孝談刀切麵一隻雞</a>（明洞總店，地下室隱藏名店）或 <a class="pl" data-p="sinseon">神仙雪濃湯</a></li>
+    <li><span class="t">13:30</span>🛍️ <b>明洞購物時間！</b><span class="chip">⭐逛街推薦</span><span class="note">首推 <a class="pl" data-p="oliveyoung">Olive Young 明洞旗艦店</a>（K-beauty 一站買齊、可即時退稅）→ <a class="pl" data-p="aland">ALAND</a>（潮牌選物）→ <a class="pl" data-p="md_under">明洞地下街</a>（小物便宜）→ <a class="pl" data-p="lotte_duty">樂天百貨免稅店</a></span></li>
+    <li><span class="t">15:00</span>🏨 Check-in HOTEL BLISS，戰利品放房間休息一下</li>
+    <li><span class="t">17:00</span>🍬 <b>找龍鬚糖小哥 Yoon Nala！</b>＠<a class="pl" data-p="noonsquare">Noon Square</a> 前<span class="chip">⭐指定任務</span><span class="note">擺攤 17:00–23:00（19:00–20:00 小哥去吃飯會不在）；會講中文超嗨的「台灣女婿」，IG <a class="web" href="https://www.instagram.com/yoonnala879/" target="_blank">@yoonnala879</a> 🍯</span></li>
+    <li><span class="t">18:00</span>🥓 <b>晚餐：<a class="pl" data-p="wangbijib">王妃家 왕비집 明洞本店</a> 烤五花肉＋韓牛</b><span class="chip">⭐烤肉推薦</span><span class="note">專人桌邊代烤、負責吃就好！郭富城也來朝聖過的明洞烤肉名店</span></li>
+    <li><span class="t">19:45</span>🚡 <a class="pl" data-p="cablecar">南山纜車</a> → <a class="pl" data-p="nseoul">N首爾塔</a> 看夜景・掛愛情鎖 💕<span class="chip tr">🚶 明洞站3號出口→纜車站約10分</span></li>
+    <li><span class="t">21:30</span>🌙 宵夜：明洞夜市小吃攤（雞蛋糕、龍蝦起司串）／還吃得下就去 <a class="pl" data-p="goldpasture">黃金牧場</a>（烤肉開到凌晨3點）或 <a class="pl" data-p="wondang">元堂脊骨土豆湯</a>（24小時）<span class="chip">⭐宵夜推薦</span></li>
+  </ul>
+  <div class="pics">
+    <figure class="pic"><img src="images/myeongdong.jpg" alt="明洞"><figcaption>🛍️ 明洞商圈</figcaption></figure>
+    <figure class="pic"><img src="images/kkultarae.jpg" alt="龍鬚糖"><figcaption>🍬 龍鬚糖（꿀타래）</figcaption></figure>
+    <figure class="pic"><img src="images/samgyeopsal.jpg" alt="烤五花肉"><figcaption>🥓 滋滋作響五花肉</figcaption></figure>
+    <figure class="pic"><img src="images/namsan_cablecar.jpg" alt="南山纜車"><figcaption>🚡 南山纜車</figcaption></figure>
+    <figure class="pic"><img src="images/n_seoul_tower.jpg" alt="N首爾塔"><figcaption>🌃 N首爾塔夜景</figcaption></figure>
+    <figure class="pic"><img src="images/tteokbokki.jpg" alt="辣炒年糕"><figcaption>🌶️ 街邊辣炒年糕</figcaption></figure>
+  </div>
+</div>
+</section>
+
+<!-- ============ DAY 5 ============ -->
+<section class="pane" id="day5">
+<div class="day d5">
+  <div class="day-head">
+    <div class="day-badge">DAY 5<br>7/12（日）</div>
+    <div>
+      <div class="day-title">景福宮、廣藏市場最後衝刺 → 回家 ✈️</div>
+      <div class="day-city">📍 首爾 → 清州機場 → 台北</div>
+    </div>
+  </div>
+  <div class="steps">
+    <div class="bar"><div class="fill" style="width:90%"></div></div>
+    <div class="lab">👟 預估步數：約 18,000 / 20,000 步（回程巴士＋飛機上好好休息）</div>
+  </div>
+  <ul class="tl">
+    <li><span class="t">08:00</span>🍲 <b>早餐：<a class="pl" data-p="sinseon">神仙雪濃湯 明洞店</a></b>（08:00 開門，熱呼呼牛骨湯開啟最後一天）<span class="chip">⭐早餐推薦</span><span class="note">清淡派可改「<a class="pl" data-p="bonjuk">味加本 본죽</a>」鮑魚粥（09:00 開）</span></li>
+    <li><span class="t">09:00</span>🧳 Check-out、行李寄放飯店櫃檯</li>
+    <li><span class="t">09:30</span>🏯 <b><a class="pl" data-p="gyeongbok">景福宮</a></b>＋<a class="pl" data-p="gwanghwamun">光化門廣場</a><span class="chip tr">🚌 公車或🚇 3號線景福宮站</span><span class="note">10:00 守門將交接儀式必看！穿韓服入宮免門票（宮外有很多租借店）👘</span></li>
+    <li><span class="t">12:00</span>🎨 <a class="pl" data-p="ssamziegil">仁寺洞 쌈지길</a>：迴旋斜坡文創小店＋午餐（韓定食小巷）</li>
+    <li><span class="t">14:00</span>💧 <a class="pl" data-p="cheonggye">清溪川</a> 散步 10 分鐘納涼</li>
+    <li><span class="t">14:30</span>🥞 <b><a class="pl" data-p="gwangjang">廣藏市場</a></b>：綠豆煎餅빈대떡＋麻藥飯捲＋生拌牛肉（當提早的晚餐吃飽飽）<span class="chip">⭐必吃</span></li>
+    <li><span class="t">16:00</span>🧳 回明洞拿行李<span class="chip tr">🚇 鐘路5街→明洞 約15分</span></li>
+    <li><span class="t">16:40</span>🚇 明洞 → <a class="pl" data-p="extermin">高速巴士客運站</a><span class="chip tr">🚇 4號線→忠武路轉3號線，約30分</span></li>
+    <li><span class="t">18:10</span>🚌 高速巴士｜首爾高速巴士客運站 → 清州機場 20:30<span class="chip tr">🚌（已訂）</span><span class="note">17:30 前抵達客運站；地下街 <a class="pl" data-p="gotomall">GOTO Mall</a> 還能做最後採買 😆</span></li>
+    <li><span class="t">23:40</span>✈️ 清州 CJJ 起飛 → 台北 TPE 01:10（+1）｜韓國，我們下次見 👋🇰🇷</li>
+  </ul>
+  <div class="pics">
+    <figure class="pic"><img src="images/seolleongtang.jpg" alt="雪濃湯"><figcaption>🍲 雪濃湯早餐</figcaption></figure>
+    <figure class="pic"><img src="images/gyeongbokgung.jpg" alt="景福宮守門將"><figcaption>💂 景福宮守門將交接</figcaption></figure>
+    <figure class="pic"><img src="images/ssamziegil.jpg" alt="仁寺洞쌈지길"><figcaption>🎨 仁寺洞쌈지길</figcaption></figure>
+    <figure class="pic"><img src="images/cheonggyecheon.jpg" alt="清溪川"><figcaption>💧 清溪川</figcaption></figure>
+    <figure class="pic"><img src="images/gwangjang.jpg" alt="廣藏市場"><figcaption>🧺 廣藏市場</figcaption></figure>
+    <figure class="pic"><img src="images/bindaetteok.jpg" alt="綠豆煎餅"><figcaption>🥞 綠豆煎餅</figcaption></figure>
+  </div>
+</div>
+</section>
+
+<!-- ============ 推薦攻略 ============ -->
+<section class="pane" id="reco">
+<h2 class="sec">💖 指定任務＆推薦店家總整理 <small>你點名的都排進去了！手機點店名直接導航 🧭</small></h2>
+
+<div class="star">🏯 <b class="name">韓屋村 → <a class="pl" data-p="bukchon">北村韓屋村</a></b>（7/10下午＋7/11清晨）<br>
+你們的韓屋民宿就在嘉會洞＝北村正中心！傍晚＆清晨去八景拍照最美最沒人。加碼：<a class="pl" data-p="samcheong">三清洞</a>（隔壁）、<a class="pl" data-p="ssamziegil">仁寺洞쌈지길</a>（7/12）。
+<span class="alt">備案：時間多的話「<a class="pl" data-p="ikseon">益善洞韓屋村</a>」也超好拍，鐘路3街站直達，可以跟布帳馬車排同一晚。</span></div>
+
+<div class="star">🥓 <b class="name">烤五花肉 → <a class="pl" data-p="wangbijib">王妃家 왕비집 明洞本店</a></b>（7/11晚餐）<br>
+明洞最具代表性的烤肉店，專人桌邊代烤，五花肉＋韓牛都讚，離飯店走路 5 分鐘。
+<span class="alt">替代：預算控制選「<a class="pl" data-p="eongteori">荒謬的生肉 明洞店</a>」烤五花吃到飽（約台幣400，CP王）；想吃特色選「<a class="pl" data-p="palsaek">八色五花肉</a>」8種口味（新村總店）。</span></div>
+
+<div class="star">👨‍🍳 <b class="name">黑白大廚餐廳 → <a class="pl" data-p="doryang">度量 도량</a></b>（7/10晚餐，景福宮站）<br>
+黑湯匙主廚임태훈的中華料理，是離你們韓屋民宿最近、訂位難度也友善的黑白大廚餐廳（步行15分）。用 <b>CatchTable Global App</b> 預約：Email 註冊即可、海外信用卡付訂金（<a class="web" href="https://blueberry1991.com/%E9%BB%91%E7%99%BD%E5%A4%A7%E5%BB%9A%E9%A4%90%E5%BB%B3%E9%A0%90%E7%B4%84%EF%BD%9C-%E9%9F%93%E5%9C%8B%E9%A4%90%E5%BB%B3%E9%A0%90%E7%B4%84%E3%80%8Acatchtable%EC%BA%90%EC%B9%98%ED%85%8C%EC%9D%B4%EB%B8%94/" target="_blank">預約教學</a>）。
+<span class="alt">替代：鄭智善「<a class="pl" data-p="tianmimi">甜蜜蜜 티엔미미</a>」港點（弘大／江南）、윤남노「<a class="pl" data-p="deepin">Deepin 디핀</a>」（新堂／玉水）；敢挑戰秒殺級就搶拿坡里黑手黨「<a class="pl" data-p="viatoledo">Via Toledo Pasta Bar</a>」（南營站，每月開放訂位秒空）。</span></div>
+
+<div class="star">🏮 <b class="name">布帳馬車 → <a class="pl" data-p="jongno3">鐘路3街 布帳馬車一條街</a></b>（7/10宵夜）<br>
+鐘路3街站 3～6 號出口之間，晚上6點後整條開攤，阿珠媽拿手菜：雞蛋捲、辣炒魷魚、烤腸＋燒酒，離韓屋民宿一站地鐵，喝完散步回家剛剛好。</div>
+
+<div class="star">🛍️ <b class="name">明洞逛街 → <a class="pl" data-p="oliveyoung">Olive Young 明洞旗艦店</a></b>（7/11下午）<br>
+全韓最大旗艦店，K-beauty 面膜、彩妝、保健品一站買齊，滿 15,000₩ 現場退稅。動線：Olive Young → <a class="pl" data-p="aland">ALAND</a> → <a class="pl" data-p="md_under">明洞地下街</a> → <a class="pl" data-p="lotte_duty">樂天免稅店</a>。</div>
+
+<div class="star">🍬 <b class="name">龍鬚糖小哥 Yoon Nala → <a class="pl" data-p="noonsquare">Noon Square</a> 前</b>（7/11 17:00 後）<br>
+明洞 Noon Square 門口，擺攤 17:00–23:00（19–20點小哥吃飯休息）。會說中文的搞笑「台灣女婿」，記得買一盒再合照！IG：<a class="web" href="https://www.instagram.com/yoonnala879/" target="_blank">@yoonnala879</a> 🍯</div>
+
+<div class="grid2">
+  <div class="mini">
+    <h3>🍳 早餐口袋名單</h3>
+    <ul>
+      <li><a class="pl" data-p="sungsimdang">聖心堂本店</a>（大田）炸菠蘿麵包 08:00–22:00</li>
+      <li><a class="pl" data-p="onion">Onion 安國店</a>（首爾）韓屋咖啡廳，平日07:00／週末09:00</li>
+      <li><a class="pl" data-p="sinseon">神仙雪濃湯 明洞店</a> 08:00 開，湯飯暖胃</li>
+      <li><a class="pl" data-p="bonjuk">味加本 본죽 明洞店</a> 鮑魚粥、蔘雞粥 09:00 開</li>
+      <li><a class="pl" data-p="isaac">Isaac Toast</a> 明洞到處都有的國民鐵板吐司</li>
+    </ul>
+  </div>
+  <div class="mini">
+    <h3>🌙 宵夜口袋名單</h3>
+    <ul>
+      <li><a class="pl" data-p="taepyeong">太平小國飯</a>（大田）24小時牛肉湯飯</li>
+      <li><a class="pl" data-p="sungsimdang">聖心堂</a>（大田）營業到 22:00，麵包當宵夜</li>
+      <li><a class="pl" data-p="jongno3">鐘路3街布帳馬車</a>（首爾）18:00～深夜</li>
+      <li><a class="pl" data-p="goldpasture">黃金牧場</a>（明洞）烤肉營業到凌晨 3:00</li>
+      <li><a class="pl" data-p="wondang">元堂脊骨土豆湯 明洞2號店</a> 24小時馬鈴薯排骨湯</li>
+    </ul>
+  </div>
+  <div class="mini">
+    <h3>🚇 交通小抄</h3>
+    <ul>
+      <li>入境先買 <b>T-money</b>（便利商店），地鐵公車嗶卡通用、轉乘有優惠</li>
+      <li>導航用 <a class="web" href="https://map.naver.com" target="_blank">Naver Map</a> 或 <a class="web" href="https://map.kakao.com" target="_blank">Kakao Map</a>（Google Map 在韓國不準）</li>
+      <li>大田市區靠公車＋步行；首爾靠地鐵 3・4 號線就能全制霸</li>
+      <li>累了別硬走！計程車起跳約 4,800₩，三人分攤很划算 🚕</li>
+    </ul>
+  </div>
+  <div class="mini">
+    <h3>📌 行前必辦清單</h3>
+    <ul>
+      <li>⚠️ 手機先安裝 <b>Naver Map App</b>（點行程地點直接導航）＋ <b>CatchTable Global</b>（<a class="web" href="https://blueberry1991.com/%E9%BB%91%E7%99%BD%E5%A4%A7%E5%BB%9A%E9%A4%90%E5%BB%B3%E9%A0%90%E7%B4%84%EF%BD%9C-%E9%9F%93%E5%9C%8B%E9%A4%90%E5%BB%B3%E9%A0%90%E7%B4%84%E3%80%8Acatchtable%EC%BA%90%EC%B9%98%ED%85%8C%EC%9D%B4%EB%B8%94/" target="_blank">教學</a>），「度量」訂位開放就搶 7/10 晚</li>
+      <li>7月首爾是梅雨季尾＋悶熱 33°C：摺疊傘、小電扇必帶 ☔</li>
+      <li>王妃家、一隻雞人多，用餐避開整點尖峰</li>
+      <li>錢包準備：市場、布帳馬車多半<b>只收現金</b> 💵</li>
+      <li>Olive Young 記得帶護照退稅</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+<footer>
+  Made with 💖 for our Korea Trip 2026｜🧭＝手機開 Naver 導航・電腦開網頁地圖｜實景照片來源：<a href="https://commons.wikimedia.org" target="_blank">Wikimedia Commons</a>（CC 授權）<br>
+  行程依據訂單檔案編排：機票・火車・巴士・住宿・球賽時間皆已核對 ✅
+</footer>
+
+</div>
+
+<script>
+/* ===== 地點資料：q=Naver搜尋關鍵字（韓文最準），lat/lng=導航目的地座標 ===== */
+const PLACES = {
+  cjj_airport: {q:"청주국제공항",              lat:36.715556, lng:127.497464},
+  cjj_station: {q:"청주공항역",                lat:36.717500, lng:127.496600},
+  daejeon_st:  {q:"대전역",                    lat:36.331352, lng:127.433365},
+  skyroad:     {q:"대전 스카이로드",           lat:36.328366, lng:127.428269},
+  sungsimdang: {q:"성심당 본점",               lat:36.327730, lng:127.427286},
+  jungang_mkt: {q:"대전중앙시장",              lat:36.329700, lng:127.432000},
+  ballpark:    {q:"대전 한화생명 볼파크",      lat:36.317200, lng:127.429100},
+  taepyeong:   {q:"태평소국밥"},
+  hanbat_arb:  {q:"한밭수목원",                lat:36.364979, lng:127.389036},
+  hanbit:      {q:"엑스포과학공원 한빛탑",     lat:36.376634, lng:127.388055},
+  daeseon:     {q:"대선칼국수"},
+  sojedong:    {q:"소제동 카페거리",           lat:36.335116, lng:127.438746},
+  daedong_sky: {q:"대동하늘공원",              lat:36.336900, lng:127.445200},
+  gwangcheon:  {q:"광천식당 대전"},
+  seoul_st:    {q:"서울역",                    lat:37.552853, lng:126.972572},
+  anguk:       {q:"안국역",                    lat:37.576240, lng:126.986160},
+  tosokchon:   {q:"토속촌삼계탕",              lat:37.578700, lng:126.971700},
+  bukchon:     {q:"북촌한옥마을",              lat:37.582392, lng:126.985865},
+  samcheong:   {q:"삼청동길",                  lat:37.589640, lng:126.981120},
+  doryang:     {q:"도량 중식당"},
+  jongno3:     {q:"종로3가 포장마차거리",      lat:37.570440, lng:126.992324},
+  onion:       {q:"어니언 안국",               lat:37.578200, lng:126.985700},
+  hyodam:      {q:"효담 칼국수 닭한마리 명동"},
+  sinseon:     {q:"신선설농탕 명동",           lat:37.563769, lng:126.985452},
+  oliveyoung:  {q:"올리브영 명동타운"},
+  aland:       {q:"에이랜드 명동",             lat:37.561888, lng:126.984768},
+  md_under:    {q:"명동지하쇼핑센터",          lat:37.560600, lng:126.986000},
+  lotte_duty:  {q:"롯데면세점 명동본점",       lat:37.565100, lng:126.981000},
+  noonsquare:  {q:"눈스퀘어",                  lat:37.563401, lng:126.982874},
+  wangbijib:   {q:"왕비집 명동본점",           lat:37.561578, lng:126.986453},
+  cablecar:    {q:"남산케이블카",              lat:37.556686, lng:126.984119},
+  nseoul:      {q:"N서울타워",                 lat:37.551270, lng:126.988281},
+  goldpasture: {q:"황금목장 명동",             lat:37.561641, lng:126.984577},
+  wondang:     {q:"원당감자탕 명동"},
+  gyeongbok:   {q:"경복궁",                    lat:37.579754, lng:126.976682},
+  gwanghwamun: {q:"광화문광장",                lat:37.572763, lng:126.976861},
+  ssamziegil:  {q:"쌈지길",                    lat:37.574223, lng:126.984729},
+  cheonggye:   {q:"청계광장",                  lat:37.569183, lng:126.977987},
+  gwangjang:   {q:"광장시장",                  lat:37.570189, lng:126.999499},
+  extermin:    {q:"서울고속버스터미널",        lat:37.504928, lng:127.005593},
+  gotomall:    {q:"고투몰",                    lat:37.505765, lng:127.004619},
+  ikseon:      {q:"익선동한옥거리",            lat:37.574358, lng:126.989776},
+  eongteori:   {q:"엉터리생고기 명동"},
+  palsaek:     {q:"팔색삼겹살 신촌본점"},
+  tianmimi:    {q:"티엔미미 홍대"},
+  deepin:      {q:"디핀 신당",                 lat:37.565939, lng:127.017217},
+  viatoledo:   {q:"비아 톨레도 파스타바"},
+  bonjuk:      {q:"본죽 명동점",               lat:37.561519, lng:126.985409},
+  isaac:       {q:"이삭토스트 명동",           lat:37.559464, lng:126.985726},
+};
+
+const APPNAME = "korea.trip.2026";
+const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+/* ===== 地點連結：手機→Naver App 導航；電腦/沒裝App→網頁地圖 ===== */
+document.querySelectorAll("a.pl").forEach(a => {
+  const p = PLACES[a.dataset.p];
+  if (!p) return;
+  const webUrl = "https://map.naver.com/p/search/" + encodeURIComponent(p.q);
+  a.href = webUrl;               // 電腦、長按複製、fallback 都用網頁版
+  a.target = "_blank";
+  a.addEventListener("click", e => {
+    if (!isMobile) return;       // 電腦直接開網頁地圖
+    e.preventDefault();
+    // 有座標→大眾運輸導航（起點=目前位置）；沒座標→App內搜尋該店（再點一下即可導航）
+    const deep = p.lat
+      ? `nmap://route/public?dlat=${p.lat}&dlng=${p.lng}&dname=${encodeURIComponent(p.q)}&appname=${APPNAME}`
+      : `nmap://search?query=${encodeURIComponent(p.q)}&appname=${APPNAME}`;
+    const timer = setTimeout(() => {          // 沒裝 Naver App → 2 秒後開網頁地圖
+      if (!document.hidden) window.location.href = webUrl;
+    }, 2000);
+    const cancel = () => clearTimeout(timer);
+    document.addEventListener("visibilitychange", cancel, {once:true});
+    window.addEventListener("pagehide", cancel, {once:true});
+    window.location.href = deep;              // 喚起 Naver Map App
+  });
+});
+
+/* ===== 分頁切換 ===== */
+const tabs  = document.querySelectorAll("#tabs button");
+const panes = document.querySelectorAll(".pane");
+function openPane(id, push) {
+  panes.forEach(s => s.classList.toggle("on", s.id === id));
+  tabs.forEach(b => b.classList.toggle("on", b.dataset.pane === id));
+  if (push) history.replaceState(null, "", "#" + id);
+  const nav = document.getElementById("tabs");
+  const y = nav.getBoundingClientRect().top + window.scrollY;
+  if (window.scrollY > y) window.scrollTo({top: y - 4, behavior: "smooth"});
+}
+tabs.forEach(b => b.addEventListener("click", () => openPane(b.dataset.pane, true)));
+const start = location.hash.slice(1);
+openPane(document.getElementById(start) ? start : "day1", false);
+</script>
+</body>
+</html>
