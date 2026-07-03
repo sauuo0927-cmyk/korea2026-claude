@@ -74,12 +74,75 @@
   nav button.d1{border-color:var(--peach);} nav button.d2{border-color:var(--mint);}
   nav button.d3{border-color:var(--lav);}  nav button.d4{border-color:var(--pink);}
   nav button.d5{border-color:var(--sky);}  nav button.d6{border-color:#FFC94D;}
+  nav button.d7{border-color:#FF8A65;}
   nav button.on.d1{background:var(--peach);color:#fff;}
   nav button.on.d2{background:var(--mint);color:#fff;}
   nav button.on.d3{background:var(--lav);color:#fff;}
   nav button.on.d4{background:var(--pink);color:#fff;}
   nav button.on.d5{background:var(--sky);color:#fff;}
   nav button.on.d6{background:#FFC94D;color:#fff;}
+  nav button.on.d7{background:#FF8A65;color:#fff;}
+
+  /* ===== 行前清單 ===== */
+  .prep-progress{
+    background:var(--card);border-radius:20px;padding:16px 18px;margin-bottom:18px;
+    box-shadow:0 6px 18px rgba(74,59,71,.09);
+  }
+  .prep-progress .bar{height:16px;border-radius:999px;background:#F3EDF1;overflow:hidden;}
+  .prep-progress .fill{height:100%;border-radius:999px;width:0%;
+    background:linear-gradient(90deg,#FFD3A5,#FF8A65);transition:width .3s;}
+  .prep-progress .lab{font-size:14px;font-weight:700;margin-top:6px;color:var(--ink);}
+  .prep-progress .saved{font-size:12px;color:#2E9D7B;margin-left:8px;opacity:0;transition:opacity .3s;}
+  .prep-progress .saved.show{opacity:1;}
+  .chk-group{
+    background:var(--card);border-radius:20px;padding:14px 18px 10px;margin-bottom:14px;
+    box-shadow:0 6px 18px rgba(74,59,71,.09);border-left:6px solid #FF8A65;
+  }
+  .chk-group h3{
+    display:flex;align-items:center;gap:10px;font-size:16.5px;margin-bottom:6px;cursor:pointer;
+  }
+  .chk-group h3 .cnt{
+    margin-left:auto;font-size:12px;font-weight:800;color:#fff;background:#FFB59E;
+    border-radius:999px;padding:2px 10px;
+  }
+  .chk-group h3 .cnt.done{background:#5FC8A8;}
+  .chk-item{
+    display:flex;align-items:flex-start;gap:10px;padding:7px 4px 7px 8px;border-radius:12px;
+    cursor:pointer;font-size:15px;transition:background .15s;
+  }
+  .chk-item:hover{background:#FFF4EF;}
+  .chk-item input, .chk-group h3 input{
+    width:20px;height:20px;accent-color:#FF8A65;flex-shrink:0;margin-top:4px;cursor:pointer;
+  }
+  .chk-group h3 input{width:22px;height:22px;margin-top:0;}
+  .chk-item .txt{flex:1;}
+  .chk-item .sub{display:block;font-size:12.5px;color:var(--ink-soft);}
+  .chk-item.done .txt{text-decoration:line-through;color:#B8A8B2;}
+  .prep-reset{
+    display:block;margin:20px auto 0;font-family:inherit;cursor:pointer;font-weight:700;font-size:13px;
+    color:#C2477A;background:#fff;border:2px dashed var(--pink);border-radius:999px;padding:7px 20px;
+  }
+  .sync-box{
+    background:var(--card);border-radius:20px;padding:14px 18px;margin-bottom:18px;
+    box-shadow:0 6px 18px rgba(74,59,71,.09);border-left:6px solid #5FB6E8;font-size:14px;
+  }
+  .sync-box summary{cursor:pointer;font-weight:800;font-size:15px;list-style-position:inside;}
+  .sync-box .sync-status{font-size:13px;font-weight:700;margin-left:6px;}
+  .sync-box .sync-status.ok{color:#2E9D7B;}
+  .sync-box .sync-status.err{color:#D6455D;}
+  .sync-box .sync-status.off{color:var(--ink-soft);}
+  .sync-row{display:flex;gap:8px;margin:10px 0 6px;flex-wrap:wrap;}
+  .sync-row input{
+    flex:1;min-width:200px;font-family:inherit;font-size:13px;padding:8px 12px;
+    border:2px solid var(--sky-soft);border-radius:12px;color:var(--ink);
+  }
+  .sync-row button{
+    font-family:inherit;cursor:pointer;font-weight:800;font-size:13px;color:#fff;
+    background:var(--sky);border:none;border-radius:12px;padding:8px 16px;
+  }
+  .sync-row button.off{background:#B8A8B2;}
+  .sync-steps{font-size:13px;color:var(--ink-soft);margin-top:8px;padding-left:18px;}
+  .sync-steps li{margin:3px 0;}
 
   /* ===== panes ===== */
   .pane{display:none;animation:fadein .25s ease;}
@@ -227,6 +290,7 @@
   <button class="d4" data-pane="day4">7/11 明洞🛍️</button>
   <button class="d5" data-pane="day5">7/12 回家✈️</button>
   <button class="d6" data-pane="reco">💖 推薦攻略</button>
+  <button class="d7" data-pane="prep">🧳 行前清單</button>
 </nav>
 
 <!-- ============ DAY 1 ============ -->
@@ -478,6 +542,82 @@
 </div>
 </section>
 
+<!-- ============ 行前清單 ============ -->
+<section class="pane" id="prep">
+<h2 class="sec">🧳 韓國行・前置準備清單 <small>勾選自動儲存；開啟雲端同步後，手機和電腦互通！</small></h2>
+
+<details class="sync-box" id="syncBox">
+  <summary>☁️ 雲端同步設定（Google 雲端硬碟）<span class="sync-status off" id="syncStatus">未啟用</span></summary>
+  <div class="sync-row">
+    <input type="url" id="syncUrl" placeholder="貼上 Apps Script 網頁應用程式 URL（https://script.google.com/...）">
+    <button id="syncEnable">啟用同步</button>
+    <button id="syncDisable" class="off">停用</button>
+  </div>
+  <ol class="sync-steps">
+    <li>開 <a class="web" href="https://sheets.new" target="_blank">sheets.new</a> 建一個新 Google 試算表（會存在你的雲端硬碟）</li>
+    <li>試算表選單「擴充功能」→「Apps Script」</li>
+    <li>貼上 <b>google-sync-apps-script.gs</b> 檔案裡的程式碼（跟網頁放在同資料夾），儲存</li>
+    <li>「部署」→「新增部署作業」→ 類型選「網頁應用程式」→ 執行身分「我」、存取權「任何人」→ 部署並複製 URL</li>
+    <li>把 URL 貼到上面欄位按「啟用同步」；<b>手機和電腦都貼同一個 URL</b> 即完成同步 🎉</li>
+  </ol>
+</details>
+
+<div class="prep-progress">
+  <div class="bar"><div class="fill" id="prepFill"></div></div>
+  <div class="lab">📦 已完成 <span id="prepCount">0 / 0</span><span class="saved" id="prepSaved">✅ 已自動儲存</span></div>
+</div>
+
+<div class="chk-group" data-g="doc">
+  <h3><input type="checkbox" class="gall">🛂 證件類（隨身）<span class="cnt"></span></h3>
+  <label class="chk-item"><input type="checkbox" data-ck="doc-cover"><span class="txt">護照套</span></label>
+  <label class="chk-item"><input type="checkbox" data-ck="doc-passport"><span class="txt">護照 ×2</span></label>
+  <label class="chk-item"><input type="checkbox" data-ck="doc-credit"><span class="txt">信用卡</span></label>
+  <label class="chk-item"><input type="checkbox" data-ck="doc-id"><span class="txt">身份證 ×2</span></label>
+</div>
+
+<div class="chk-group" data-g="3c">
+  <h3><input type="checkbox" class="gall">🔌 三Ｃ類（隨身）<span class="cnt"></span></h3>
+  <label class="chk-item"><input type="checkbox" data-ck="c-esim"><span class="txt">eSIM 購買<span class="sub">出發前先買好並完成安裝，落地開漫遊直接用</span></span></label>
+  <label class="chk-item"><input type="checkbox" data-ck="c-cable"><span class="txt">充電線（Type-C／Apple）</span></label>
+  <label class="chk-item"><input type="checkbox" data-ck="c-wisps"><span class="txt">Wisps</span></label>
+  <label class="chk-item"><input type="checkbox" data-ck="c-adapter"><span class="txt">變壓器 ×2<span class="sub">韓國是 220V 圓形雙孔插座</span></span></label>
+  <label class="chk-item"><input type="checkbox" data-ck="c-airpods"><span class="txt">AirPods</span></label>
+  <label class="chk-item"><input type="checkbox" data-ck="c-phone"><span class="txt">手機</span></label>
+</div>
+
+<div class="chk-group" data-g="daily">
+  <h3><input type="checkbox" class="gall">🧴 用品類<span class="cnt"></span></h3>
+  <label class="chk-item"><input type="checkbox" data-ck="d-med"><span class="txt">常備藥</span></label>
+  <label class="chk-item"><input type="checkbox" data-ck="d-skinmed"><span class="txt">皮膚藥</span></label>
+  <label class="chk-item"><input type="checkbox" data-ck="d-lotion"><span class="txt">乳液</span></label>
+  <label class="chk-item"><input type="checkbox" data-ck="d-tissue"><span class="txt">衛生紙</span></label>
+  <label class="chk-item"><input type="checkbox" data-ck="d-wallet"><span class="txt">錢包</span></label>
+  <label class="chk-item"><input type="checkbox" data-ck="d-comb"><span class="txt">梳子</span></label>
+  <label class="chk-item"><input type="checkbox" data-ck="d-facewash"><span class="txt">洗臉用品</span></label>
+</div>
+
+<div class="chk-group" data-g="cloth">
+  <h3><input type="checkbox" class="gall">👕 衣服<span class="cnt"></span></h3>
+  <label class="chk-item"><input type="checkbox" data-ck="w-underwear"><span class="txt">內衣</span></label>
+  <label class="chk-item"><input type="checkbox" data-ck="w-socks"><span class="txt">襪子</span></label>
+  <label class="chk-item"><input type="checkbox" data-ck="w-briefs"><span class="txt">內褲</span></label>
+</div>
+
+<div class="chk-group" data-g="app">
+  <h3><input type="checkbox" class="gall">📱 要安裝 APP<span class="cnt"></span></h3>
+  <label class="chk-item"><input type="checkbox" data-ck="a-wowpass"><span class="txt">WOW PASS<span class="sub">外國人專用儲值卡＋T-money，機場/明洞有實體機台</span></span></label>
+  <label class="chk-item"><input type="checkbox" data-ck="a-papago"><span class="txt">Papago<span class="sub">韓文翻譯神器，菜單拍照即翻</span></span></label>
+  <label class="chk-item"><input type="checkbox" data-ck="a-navermap"><span class="txt">Naver Map<span class="sub">裝好之後，本網頁所有地點點了直接導航 🧭</span></span></label>
+</div>
+
+<div class="chk-group" data-g="tax">
+  <h3><input type="checkbox" class="gall">💰 退稅資訊<span class="cnt"></span></h3>
+  <label class="chk-item"><input type="checkbox" data-ck="t-info"><span class="txt">看過退稅攻略<span class="sub"><a class="web" href="https://www.facebook.com/groups/korealife168/permalink/2020654294958974/" target="_blank">Facebook 韓國生活社團退稅整理文</a>｜重點：單筆滿 15,000₩ 可退、Olive Young 出示護照現場即退、機場退稅記得留時間</span></span></label>
+</div>
+
+<button class="prep-reset" id="prepReset">🗑️ 全部重設（清除勾選紀錄）</button>
+</section>
+
 <footer>
   Made with 💖 for our Korea Trip 2026｜🧭＝手機開 Naver 導航・電腦開網頁地圖｜實景照片來源：<a href="https://commons.wikimedia.org" target="_blank">Wikimedia Commons</a>（CC 授權）<br>
   行程依據訂單檔案編排：機票・火車・巴士・住宿・球賽時間皆已核對 ✅
@@ -585,6 +725,145 @@ function openPane(id, push) {
 tabs.forEach(b => b.addEventListener("click", () => openPane(b.dataset.pane, true)));
 const start = location.hash.slice(1);
 openPane(document.getElementById(start) ? start : "day1", false);
+
+/* ===== 行前清單：勾選狀態存 localStorage ===== */
+const PREP_KEY = "koreaTripPrep2026";
+const boxes = [...document.querySelectorAll('#prep input[data-ck]')];
+const savedTip = document.getElementById("prepSaved");
+let tipTimer;
+
+function loadPrep() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(PREP_KEY)) || {};
+    // 舊版格式（純勾選物件）→ 轉成 {ts, state}
+    return raw.state ? raw : { ts: 0, state: raw };
+  } catch (e) { return { ts: 0, state: {} }; }
+}
+function currentState() {
+  const state = {};
+  boxes.forEach(b => { if (b.checked) state[b.dataset.ck] = 1; });
+  return state;
+}
+function applyState(state) {
+  boxes.forEach(b => { b.checked = !!(state && state[b.dataset.ck]); });
+}
+function savePrep() {
+  try {
+    localStorage.setItem(PREP_KEY, JSON.stringify({ ts: Date.now(), state: currentState() }));
+    savedTip.classList.add("show");
+    clearTimeout(tipTimer);
+    tipTimer = setTimeout(() => savedTip.classList.remove("show"), 1500);
+  } catch (e) { /* 私密瀏覽模式可能無法儲存 */ }
+  schedulePush();
+}
+function refreshPrep() {
+  // 單項樣式
+  boxes.forEach(b => b.closest(".chk-item").classList.toggle("done", b.checked));
+  // 各群組：計數徽章＋群組全選框狀態
+  document.querySelectorAll(".chk-group").forEach(g => {
+    const items = [...g.querySelectorAll("input[data-ck]")];
+    const done = items.filter(b => b.checked).length;
+    const cnt = g.querySelector(".cnt");
+    cnt.textContent = done + " / " + items.length;
+    cnt.classList.toggle("done", done === items.length);
+    const gall = g.querySelector(".gall");
+    gall.checked = done === items.length;
+    gall.indeterminate = done > 0 && done < items.length;
+  });
+  // 總進度
+  const total = boxes.length, done = boxes.filter(b => b.checked).length;
+  document.getElementById("prepFill").style.width = (total ? Math.round(done / total * 100) : 0) + "%";
+  document.getElementById("prepCount").textContent = done + " / " + total;
+}
+// 還原上次勾選
+applyState(loadPrep().state);
+refreshPrep();
+// 單項勾選
+boxes.forEach(b => b.addEventListener("change", () => { refreshPrep(); savePrep(); }));
+// 群組標題全選/全取消
+document.querySelectorAll(".chk-group .gall").forEach(gall => {
+  gall.addEventListener("change", () => {
+    gall.closest(".chk-group").querySelectorAll("input[data-ck]")
+      .forEach(b => { b.checked = gall.checked; });
+    refreshPrep(); savePrep();
+  });
+});
+// 重設
+document.getElementById("prepReset").addEventListener("click", () => {
+  if (!confirm("確定要清除所有勾選紀錄嗎？（雲端同步啟用時，雲端紀錄也會一併清除）")) return;
+  boxes.forEach(b => { b.checked = false; });
+  refreshPrep(); savePrep();
+});
+
+/* ===== 雲端同步（Google 試算表 + Apps Script）===== */
+const SYNC_URL_KEY = "koreaTripSyncUrl";
+const statusEl = document.getElementById("syncStatus");
+const urlInput = document.getElementById("syncUrl");
+let pushTimer = null;
+
+function syncUrl() { return localStorage.getItem(SYNC_URL_KEY) || ""; }
+function setStatus(cls, text) {
+  statusEl.className = "sync-status " + cls;
+  statusEl.textContent = text;
+}
+function nowHM() {
+  const d = new Date();
+  return String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0");
+}
+async function pushCloud() {
+  const url = syncUrl();
+  if (!url) return;
+  setStatus("off", "同步中…");
+  try {
+    // Content-Type 用 text/plain 避免瀏覽器預檢請求被 Google 擋下
+    const res = await fetch(url, { method: "POST", headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify({ ts: Date.now(), state: currentState() }) });
+    if (!res.ok) throw new Error(res.status);
+    setStatus("ok", "✅ 已同步 " + nowHM());
+  } catch (e) { setStatus("err", "⚠️ 同步失敗（檢查網路或 URL）"); }
+}
+function schedulePush() {
+  if (!syncUrl()) return;
+  clearTimeout(pushTimer);
+  pushTimer = setTimeout(pushCloud, 1200);   // 停止勾選 1.2 秒後才上傳，避免連續請求
+}
+async function pullCloud() {
+  const url = syncUrl();
+  if (!url) return;
+  setStatus("off", "同步中…");
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(res.status);
+    const remote = await res.json();
+    const local = loadPrep();
+    if (remote && remote.ts && remote.ts > (local.ts || 0)) {
+      // 雲端比較新 → 套用到本機
+      applyState(remote.state);
+      refreshPrep();
+      localStorage.setItem(PREP_KEY, JSON.stringify({ ts: remote.ts, state: remote.state }));
+      setStatus("ok", "✅ 已同步 " + nowHM());
+    } else if ((local.ts || 0) > (remote.ts || 0)) {
+      await pushCloud();               // 本機比較新 → 上傳
+    } else {
+      setStatus("ok", "✅ 已同步 " + nowHM());
+    }
+  } catch (e) { setStatus("err", "⚠️ 同步失敗（檢查網路或 URL）"); }
+}
+document.getElementById("syncEnable").addEventListener("click", () => {
+  const url = urlInput.value.trim();
+  if (!/^https:\/\/script\.google(usercontent)?\.com\//.test(url)) {
+    alert("請貼上 Apps Script 的網頁應用程式 URL（https://script.google.com/ 開頭）");
+    return;
+  }
+  localStorage.setItem(SYNC_URL_KEY, url);
+  pullCloud();
+});
+document.getElementById("syncDisable").addEventListener("click", () => {
+  localStorage.removeItem(SYNC_URL_KEY);
+  setStatus("off", "未啟用");
+});
+// 開頁時：若已設定過同步 → 自動拉雲端資料
+if (syncUrl()) { urlInput.value = syncUrl(); pullCloud(); }
 </script>
 </body>
 </html>
