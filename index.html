@@ -751,6 +751,24 @@ function defaultData() {
   return DEFAULT_PREP.map(g => ({ key:g.key, title:g.title,
     items: g.items.map(i => ({ id:i.id, text:i.text, sub:i.sub||"", subHtml:i.subHtml||"", done:false })) }));
 }
+
+/* 文字裡的網址一律轉成超連結（安全：不用 innerHTML 處理使用者輸入） */
+const URL_RE = /(https?:\/\/[^\s<>"']+)/g;
+function linkifyInto(el, text) {
+  String(text).split(URL_RE).forEach(part => {
+    if (/^https?:\/\//.test(part)) {
+      const a = document.createElement("a");
+      a.href = part;
+      a.textContent = part.length > 42 ? part.slice(0, 39) + "…" : part;  // 顯示縮短、連結保留完整
+      a.className = "web";
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      el.appendChild(a);
+    } else if (part) {
+      el.appendChild(document.createTextNode(part));
+    }
+  });
+}
 function loadPrep() {
   try { return JSON.parse(localStorage.getItem(PREP_KEY)) || {}; }
   catch (e) { return {}; }
@@ -807,9 +825,9 @@ function renderPrep() {
       cb.addEventListener("change", () => { item.done = cb.checked; savePrep(); renderPrep(); });
       const txt = document.createElement("span");
       txt.className = "txt";
-      txt.textContent = item.text;
+      linkifyInto(txt, item.text);
       if (item.subHtml) { const s = document.createElement("span"); s.className = "sub"; s.innerHTML = item.subHtml; txt.appendChild(s); }
-      else if (item.sub) { const s = document.createElement("span"); s.className = "sub"; s.textContent = item.sub; txt.appendChild(s); }
+      else if (item.sub) { const s = document.createElement("span"); s.className = "sub"; linkifyInto(s, item.sub); txt.appendChild(s); }
       const edit = document.createElement("button");
       edit.type = "button"; edit.className = "act"; edit.textContent = "✏️"; edit.title = "編輯";
       edit.addEventListener("click", e => {
@@ -884,7 +902,8 @@ function liPlain(li) {
 function buildPlainLi(time, text) {
   const li = document.createElement("li");
   const t = document.createElement("span"); t.className = "t"; t.textContent = time;
-  li.append(t, document.createTextNode(text));
+  li.appendChild(t);
+  linkifyInto(li, text);
   return li;
 }
 function attachItinBtns(li, dayId) {
@@ -933,9 +952,20 @@ function editItin(li, dayId) {
   const isEdited = !!li.dataset.edited;
   if (!isCustom && !isEdited &&
       !confirm("編輯後這一條會變成純文字（原本的地圖連結、標籤會移除），確定要編輯嗎？")) return;
+  // 取「儲存的原文」當編輯預設值（畫面上的網址是縮短版，不能直接拿來編輯）
+  let curText;
+  if (isCustom) {
+    const it = cfg.custom.find(x => x.id === li.dataset.cid);
+    curText = it ? it.text : liPlain(li);
+  } else if (isEdited) {
+    const ed0 = cfg.edits[li.dataset.def];
+    curText = ed0 ? ed0.text : liPlain(li);
+  } else {
+    curText = liPlain(li);
+  }
   const nt = prompt("時間（例如 14:30）：", liTime(li));
   if (nt === null) return;
-  const nx = prompt("行程內容：", liPlain(li));
+  const nx = prompt("行程內容：", curText);
   if (nx === null) return;
   const time = nt.trim() || "--:--", text = nx.trim();
   if (!text) { alert("內容不能空白；要刪除請按 🗑️"); return; }
