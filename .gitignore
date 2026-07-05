@@ -1,0 +1,14 @@
+# 個人敏感資料（訂位資訊）— 禁止上傳
+我的訂單.xlsx
+*.xlsx
+
+# 資安報告（內部文件，不上傳）
+security-report-*.docx
+
+# 本機開發設定
+.claude/
+.github-deploy.json
+
+# 系統雜項
+.DS_Store
+Thumbs.db
