@@ -144,12 +144,15 @@
   .sync-steps{font-size:13px;color:var(--ink-soft);margin-top:8px;padding-left:18px;}
   .sync-steps li{margin:3px 0;}
 
-  /* 行前清單：編輯/刪除/新增 */
-  .chk-item .act{
-    font-family:inherit;cursor:pointer;font-size:14px;background:#F7F2F5;border:none;
-    border-radius:10px;padding:4px 9px;flex-shrink:0;margin-top:1px;
+  /* 清單/行程：編輯/刪除/新增 */
+  .chk-item .act, .tl .act{
+    font-family:inherit;cursor:pointer;font-size:13px;background:#F7F2F5;border:none;
+    border-radius:10px;padding:3px 8px;flex-shrink:0;margin-top:1px;
   }
-  .chk-item .act:hover{background:var(--pink-soft);}
+  .chk-item .act:hover, .tl .act:hover{background:var(--pink-soft);}
+  .tl-act{margin-left:8px;white-space:nowrap;display:inline-block;vertical-align:1px;}
+  .tl-act .act{opacity:.55;}
+  .tl li:hover .tl-act .act{opacity:1;}
   .add-item{
     display:block;width:100%;font-family:inherit;cursor:pointer;font-weight:700;font-size:13.5px;
     color:#E8862F;background:#FFF7EF;border:2px dashed #FFB77D;border-radius:12px;
@@ -659,7 +662,7 @@ const APPNAME = "korea.trip.2026";
 const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
 /* ===== 地點連結：手機→Naver App 導航；電腦/沒裝App→網頁地圖 ===== */
-document.querySelectorAll("a.pl").forEach(a => {
+function bindPlaceLink(a) {
   const p = PLACES[a.dataset.p];
   if (!p) return;
   const webUrl = "https://map.naver.com/p/search/" + encodeURIComponent(p.q);
@@ -680,7 +683,8 @@ document.querySelectorAll("a.pl").forEach(a => {
     window.addEventListener("pagehide", cancel, {once:true});
     window.location.href = deep;              // 喚起 Naver Map App
   });
-});
+}
+document.querySelectorAll("a.pl").forEach(bindPlaceLink);
 
 /* ===== 分頁切換 ===== */
 const tabs  = document.querySelectorAll("#tabs button");
@@ -855,6 +859,136 @@ document.getElementById("prepReset").addEventListener("click", () => {
   savePrep(); renderPrep();
 });
 
+/* ===== 每日行程：新增/編輯/刪除 ===== */
+const ITIN_KEY = "koreaTripItin2026";
+const DAY_IDS = ["day1", "day2", "day3", "day4", "day5"];
+const ITIN_ORIG = {};   // 各天原始行程列的 HTML 快照（重設/重繪用）
+function loadItin() {
+  try { const v = JSON.parse(localStorage.getItem(ITIN_KEY)) || {}; return { ts: v.ts || 0, days: v.days || {} }; }
+  catch (e) { return { ts: 0, days: {} }; }
+}
+let itinStore = loadItin();
+function dayCfg(d) { return itinStore.days[d] || (itinStore.days[d] = { hidden: [], edits: {}, custom: [] }); }
+function saveItin() {
+  itinStore.ts = Date.now();
+  try { localStorage.setItem(ITIN_KEY, JSON.stringify(itinStore)); } catch (e) {}
+  schedulePush();
+}
+function timeMin(t) { const m = /^(\d{1,2}):(\d{2})/.exec((t || "").trim()); return m ? (+m[1]) * 60 + (+m[2]) : 99999; }
+function liTime(li) { const t = li.querySelector(".t"); return t ? t.textContent.trim() : ""; }
+function liPlain(li) {
+  const c = li.cloneNode(true);
+  c.querySelectorAll(".t, .tl-act, .chip").forEach(x => x.remove());
+  return c.textContent.replace(/\s+/g, " ").trim();
+}
+function buildPlainLi(time, text) {
+  const li = document.createElement("li");
+  const t = document.createElement("span"); t.className = "t"; t.textContent = time;
+  li.append(t, document.createTextNode(text));
+  return li;
+}
+function attachItinBtns(li, dayId) {
+  const wrap = document.createElement("span");
+  wrap.className = "tl-act";
+  const ed = document.createElement("button"); ed.type = "button"; ed.className = "act"; ed.textContent = "✏️"; ed.title = "編輯";
+  const del = document.createElement("button"); del.type = "button"; del.className = "act"; del.textContent = "🗑️"; del.title = "刪除";
+  ed.addEventListener("click", () => editItin(li, dayId));
+  del.addEventListener("click", () => delItin(li, dayId));
+  wrap.append(ed, del);
+  li.appendChild(wrap);
+}
+function applyItin() {
+  DAY_IDS.forEach(dayId => {
+    const ul = document.querySelector("#" + dayId + " ul.tl");
+    if (!ul || !ITIN_ORIG[dayId]) return;
+    const cfg = dayCfg(dayId);
+    ul.textContent = "";
+    const rows = [];
+    // 預設行程：套用「隱藏」與「編輯過」
+    ITIN_ORIG[dayId].forEach((html, idx) => {
+      if (cfg.hidden.includes(idx)) return;
+      let li;
+      const ed = cfg.edits[idx];
+      if (ed) { li = buildPlainLi(ed.time, ed.text); li.dataset.edited = "1"; }
+      else { const tpl = document.createElement("ul"); tpl.innerHTML = html; li = tpl.firstElementChild; }
+      li.dataset.def = idx;
+      rows.push(li);
+    });
+    // 自訂行程
+    cfg.custom.forEach(item => {
+      const li = buildPlainLi(item.time, item.text);
+      li.dataset.cid = item.id;
+      rows.push(li);
+    });
+    // 依時間排序插入（沒有時間格式的排最後）
+    rows.sort((a, b) => timeMin(liTime(a)) - timeMin(liTime(b)));
+    rows.forEach(li => { attachItinBtns(li, dayId); ul.appendChild(li); });
+    // 重新綁定地圖導航連結
+    ul.querySelectorAll("a.pl").forEach(bindPlaceLink);
+  });
+}
+function editItin(li, dayId) {
+  const cfg = dayCfg(dayId);
+  const isCustom = !!li.dataset.cid;
+  const isEdited = !!li.dataset.edited;
+  if (!isCustom && !isEdited &&
+      !confirm("編輯後這一條會變成純文字（原本的地圖連結、標籤會移除），確定要編輯嗎？")) return;
+  const nt = prompt("時間（例如 14:30）：", liTime(li));
+  if (nt === null) return;
+  const nx = prompt("行程內容：", liPlain(li));
+  if (nx === null) return;
+  const time = nt.trim() || "--:--", text = nx.trim();
+  if (!text) { alert("內容不能空白；要刪除請按 🗑️"); return; }
+  if (isCustom) {
+    const it = cfg.custom.find(x => x.id === li.dataset.cid);
+    if (it) { it.time = time; it.text = text; }
+  } else {
+    cfg.edits[li.dataset.def] = { time, text };
+  }
+  saveItin(); applyItin();
+}
+function delItin(li, dayId) {
+  const cfg = dayCfg(dayId);
+  if (!confirm("刪除這一條行程？")) return;
+  if (li.dataset.cid) cfg.custom = cfg.custom.filter(x => x.id !== li.dataset.cid);
+  else {
+    const idx = +li.dataset.def;
+    if (!cfg.hidden.includes(idx)) cfg.hidden.push(idx);
+    delete cfg.edits[idx];
+  }
+  saveItin(); applyItin();
+}
+// 初始化：快照原始行程 → 每天加「＋ 新增行程」按鈕 → 套用使用者修改
+DAY_IDS.forEach(dayId => {
+  const ul = document.querySelector("#" + dayId + " ul.tl");
+  if (!ul) return;
+  ITIN_ORIG[dayId] = [...ul.children].map(li => li.outerHTML);
+  const add = document.createElement("button");
+  add.type = "button"; add.className = "add-item"; add.textContent = "＋ 新增行程";
+  add.addEventListener("click", () => {
+    const nt = prompt("時間（例如 14:30）：");
+    if (nt === null) return;
+    const nx = prompt("行程內容（例如：去漢江公園野餐）：");
+    if (nx === null) return;
+    const text = nx.trim();
+    if (!text) return;
+    dayCfg(dayId).custom.push({ id: "u" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+      time: (nt.trim() || "--:--"), text });
+    saveItin(); applyItin();
+  });
+  ul.after(add);
+  const restore = document.createElement("button");
+  restore.type = "button"; restore.className = "prep-reset"; restore.style.marginTop = "6px";
+  restore.textContent = "↺ 恢復這一天的預設行程";
+  restore.addEventListener("click", () => {
+    if (!confirm("恢復這一天的預設行程？（你對這一天的編輯、刪除、自訂新增都會清除）")) return;
+    itinStore.days[dayId] = { hidden: [], edits: {}, custom: [] };
+    saveItin(); applyItin();
+  });
+  add.after(restore);
+});
+applyItin();
+
 /* ===== 雲端同步（Google 試算表 + Apps Script）===== */
 const SYNC_URL_KEY = "koreaTripSyncUrl";
 const statusEl = document.getElementById("syncStatus");
@@ -877,7 +1011,7 @@ async function pushCloud() {
   try {
     // Content-Type 用 text/plain 避免瀏覽器預檢請求被 Google 擋下
     const res = await fetch(url, { method: "POST", headers: { "Content-Type": "text/plain" },
-      body: JSON.stringify({ ts: Date.now(), data: prepData }) });
+      body: JSON.stringify({ ts: Date.now(), data: prepData, itin: itinStore.days }) });
     if (!res.ok) throw new Error(res.status);
     setStatus("ok", "✅ 已同步 " + nowHM());
   } catch (e) { setStatus("err", "⚠️ 同步失敗（檢查網路或 URL）"); }
@@ -895,14 +1029,19 @@ async function pullCloud() {
     const res = await fetch(url);
     if (!res.ok) throw new Error(res.status);
     const remote = await res.json();
-    const local = loadPrep();
-    if (remote && remote.ts && remote.ts > (local.ts || 0)) {
+    const localTs = Math.max(loadPrep().ts || 0, itinStore.ts || 0);
+    if (remote && remote.ts && remote.ts > localTs) {
       // 雲端比較新 → 套用到本機（相容雲端上的舊格式資料）
       prepData = Array.isArray(remote.data) ? remote.data : migrate(remote);
       renderPrep();
       localStorage.setItem(PREP_KEY, JSON.stringify({ ts: remote.ts, data: prepData }));
+      if (remote.itin) {
+        itinStore = { ts: remote.ts, days: remote.itin };
+        localStorage.setItem(ITIN_KEY, JSON.stringify(itinStore));
+        applyItin();
+      }
       setStatus("ok", "✅ 已同步 " + nowHM());
-    } else if ((local.ts || 0) > (remote.ts || 0)) {
+    } else if (localTs > (remote.ts || 0)) {
       await pushCloud();               // 本機比較新 → 上傳
     } else {
       setStatus("ok", "✅ 已同步 " + nowHM());
